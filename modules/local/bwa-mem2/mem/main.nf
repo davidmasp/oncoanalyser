@@ -40,11 +40,13 @@ process BWAMEM2_ALIGN {
         ${reads_fwd} \\
         ${reads_rev} | \\
         samtools sort -o ${output_fn}
+    
+    samtools index ${output_fn}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
         bwa-mem2: \$(bwa-mem2 version 2>/dev/null)
-        sambamba: \$(sambamba --version 2>&1 | egrep '^sambamba' | head -n 1 | awk '{ print \$NF }')
+        samtools: \$(samtools --version 2>&1 | egrep '^samtools' | head -n 1 | awk '{ print \$NF }')
     END_VERSIONS
     """
 
