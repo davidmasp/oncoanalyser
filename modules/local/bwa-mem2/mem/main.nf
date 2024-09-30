@@ -33,26 +33,13 @@ process BWAMEM2_ALIGN {
     bwa-mem2 mem \\
         ${args} \\
         -Y \\
-        -K 1000000 \\
+        -K 100000000 \\
         -R '${read_group_tag}' \\
-        -t 3 \\
+        -t ${task.cpus} \\
         ${genome_fasta} \\
         ${reads_fwd} \\
         ${reads_rev} | \\
-        \\
-        sambamba view \\
-            ${args2} \\
-            --sam-input \\
-            --format bam \\
-            --compression-level 0 \\
-            --nthreads 3 \\
-            /dev/stdin | \\
-        \\
-        sambamba sort \\
-            ${args3} \\
-            --nthreads 3 \\
-            --out ${output_fn} \\
-            /dev/stdin
+        samtools sort -o ${output_fn}
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
