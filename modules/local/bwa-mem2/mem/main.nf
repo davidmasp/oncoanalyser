@@ -35,7 +35,7 @@ process BWAMEM2_ALIGN {
         -Y \\
         -K 1000000 \\
         -R '${read_group_tag}' \\
-        -t ${task.cpus} \\
+        -t 3 \\
         ${genome_fasta} \\
         ${reads_fwd} \\
         ${reads_rev} | \\
@@ -45,12 +45,12 @@ process BWAMEM2_ALIGN {
             --sam-input \\
             --format bam \\
             --compression-level 0 \\
-            --nthreads ${task.cpus} \\
+            --nthreads 3 \\
             /dev/stdin | \\
         \\
         sambamba sort \\
             ${args3} \\
-            --nthreads ${task.cpus} \\
+            --nthreads 3 \\
             --out ${output_fn} \\
             /dev/stdin
 
